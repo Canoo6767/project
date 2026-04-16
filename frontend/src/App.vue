@@ -5,18 +5,14 @@ const resultado = ref('')
 const historial = ref([])
 
 async function consultar() {
-  const res = await fetch('http://localhost:8080/consulta', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ciudad: 'Monterrey', fecha: new Date().toISOString() })
-  })
+  const res = await fetch('http://3.87.96.167:8080/weather?city=Monterrey')
   const data = await res.json()
-  resultado.value = data.resultado
+  resultado.value = `Clima en ${data.ciudad}: ${data.descripcion}, ${data.temperatura}°C`
   await cargarHistorial()
 }
 
 async function cargarHistorial() {
-  const res = await fetch('http://localhost:8080/historial')
+  const res = await fetch('http://3.87.96.167:8080/historial')
   historial.value = await res.json()
 }
 </script>

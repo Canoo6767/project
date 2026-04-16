@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const fetch = require('node-fetch')
 const fs = require('fs')
 const path = require('path')
+const cors = require('cors')
+app.use(cors())
+
 
 const app = express()
 app.use(express.json())
