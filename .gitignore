@@ -1,0 +1,11 @@
+# Ignorar datos de Mongo
+mongo-data/
+
+# Ignorar dependencias
+node_modules/
+
+# Ignorar archivos de entorno
+.env
+
+# Ignorar logs
+backend/logs/
