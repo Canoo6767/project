@@ -21,11 +21,11 @@ function log(msg) {
   fs.appendFileSync(logPath, `[${new Date().toISOString()}] ${msg}\n`)
 }
 
-// Endpoint: consulta con OpenWeather
+// Endpoint: consulta con OpenWeather (POST)
 app.post('/consulta', async (req, res) => {
   const { ciudad, fecha } = req.body
   try {
-    const apiKey = process.env.OPENWEATHER_KEY || 'TU_API_KEY'
+    const apiKey = process.env.OPENWEATHER_KEY
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric&lang=es`
     const response = await fetch(url)
     const data = await response.json()
@@ -39,6 +39,25 @@ app.post('/consulta', async (req, res) => {
     res.json({ resultado })
   } catch (err) {
     log(`ERROR: Falló consulta para ${ciudad} en ${fecha} - ${err.message}`)
+    res.status(500).json({ error: 'Error consultando clima' })
+  }
+})
+
+// Nuevo Endpoint: consulta rápida (GET)
+app.get('/weather', async (req, res) => {
+  const ciudad = req.query.city || 'Monterrey'
+  try {
+    const apiKey = process.env.OPENWEATHER_KEY
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric&lang=es`
+    const response = await fetch(url)
+    const data = await response.json()
+
+    res.json({
+      ciudad,
+      descripcion: data.weather[0].description,
+      temperatura: data.main.temp
+    })
+  } catch (err) {
     res.status(500).json({ error: 'Error consultando clima' })
   }
 })

@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   mongo:
     image: mongo:6.0
@@ -15,11 +17,12 @@ services:
       - "8080:8080"
     depends_on:
       - mongo
+    env_file:
+      - .env   # 👈 aquí se carga tu clave de OpenWeather
     environment:
       - MONGO_URL=mongodb://mongo:27017/clima
-      - OPENWEATHER_KEY=${OPENWEATHER_KEY}
     volumes:
-      - ./backend/logs:/app/logs   # 👈 cambio clave: ruta correcta
+      - ./backend/logs:/app/logs
     restart: unless-stopped
 
   frontend:
