@@ -4,10 +4,13 @@ const fetch = require('node-fetch')
 const fs = require('fs')
 const path = require('path')
 const cors = require('cors')
-app.use(cors())
-
 
 const app = express()
+
+// Middlewares
+app.use(cors({
+  origin: 'http://3.87.96.167:5173'   // permite solo tu frontend
+}))
 app.use(express.json())
 
 // Modelo
